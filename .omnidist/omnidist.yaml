@@ -1,8 +1,8 @@
 profiles:
-  acp-repl:
+  acpchat:
     tool:
-      name: acp-repl
-      main: ./cmd/acp-repl
+      name: acpchat
+      main: ./cmd/acpchat
     readme-path: ./README.md
     version:
       source: git-tag
@@ -23,11 +23,11 @@ profiles:
       cgo: false
     distributions:
       npm:
-        package: '@normahq/acp-repl'
+        package: '@baldaworks/acpchat'
         registry: https://registry.npmjs.org
         access: public
         publish-auth: trusted
-        repository-url: git+https://github.com/normahq/acp-repl.git
+        repository-url: git+https://github.com/baldaworks/acpchat.git
         license: MIT
         include-readme: true
         keywords:
@@ -38,3 +38,4 @@ profiles:
           - cli
           - repl
           - interactive
+          - chat

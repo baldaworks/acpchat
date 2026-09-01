@@ -1,4 +1,4 @@
-package acprepl
+package acpchat
 
 import (
 	"bufio"
@@ -13,8 +13,8 @@ import (
 
 	"github.com/charmbracelet/glamour"
 	acp "github.com/coder/acp-go-sdk"
-	"github.com/normahq/acp-repl/internal/apps/appio"
-	"github.com/normahq/acp-repl/internal/logging"
+	"github.com/baldaworks/acpchat/internal/apps/appio"
+	"github.com/baldaworks/acpchat/internal/logging"
 	"github.com/normahq/go-adk-acpagent/v2"
 	"github.com/rs/zerolog"
 	adkagent "google.golang.org/adk/v2/agent"
@@ -27,8 +27,8 @@ const (
 	toolReplCommandExit  = "exit"
 	toolReplCommandQuit  = "quit"
 	acpToolCallEventName = "acp_tool_call"
-	defaultREPLAppName   = "norma-tool-acp-repl"
-	defaultREPLUserID    = "norma-tool-user"
+	defaultREPLAppName   = "baldaworks-acpchat"
+	defaultREPLUserID    = "acpchat-user"
 
 	ansiGray  = "\x1b[90m"
 	ansiReset = "\x1b[0m"
@@ -84,18 +84,18 @@ func RunREPL(
 			l.Debug().
 				Str("working_dir", workingDir).
 				Strs("command", command).
-				Msg("starting ACP REPL tool")
+				Msg("starting ACP chat tool")
 
 			agentRuntime, err := acpagent.New(acpagent.Config{
 				Context:           ctx,
-				Name:              "acp_repl_agent",
-				Description:       "Generic ACP REPL tool",
+				Name:              "acpchat_agent",
+				Description:       "Generic ACP chat tool",
 				SessionConfig:     acpSessionConfigValues(sessionModel, sessionMode, reasoningEffort),
 				Command:           command,
 				WorkingDir:        workingDir,
 				Stderr:            agentStderr,
 				PermissionHandler: permissionHandler,
-				Logger:            logging.Slog().With("component", "tool.acp_repl"),
+				Logger:            logging.Slog().With("component", "tool.acpchat"),
 			})
 			if err != nil {
 				l.Error().Err(err).Msg("failed to create ACP runtime")

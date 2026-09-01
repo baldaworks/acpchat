@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/normahq/acp-repl/internal/apps/acprepl"
-	"github.com/normahq/acp-repl/internal/logging"
+	"github.com/baldaworks/acpchat/internal/apps/acpchat"
+	"github.com/baldaworks/acpchat/internal/logging"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 )
@@ -17,9 +17,9 @@ func Command() *cobra.Command {
 	var debugLogs bool
 
 	cmd := &cobra.Command{
-		Use:          "acp-repl [--model <model>] [--mode <mode>] [--reasoning-effort <effort>] -- <acp-server-cmd> [args...]",
-		Short:        "Run an interactive REPL against any stdio ACP server command",
-		Long:         "Start a stdio ACP server command and run an interactive terminal REPL over ACP.",
+		Use:          "acpchat [--model <model>] [--mode <mode>] [--reasoning-effort <effort>] -- <acp-server-cmd> [args...]",
+		Short:        "Run an interactive terminal chat against any stdio ACP server command",
+		Long:         "Start a stdio ACP server command and run an interactive terminal chat over ACP.",
 		SilenceUsage: true,
 		Args:         cobra.ArbitraryArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -33,7 +33,7 @@ func Command() *cobra.Command {
 				return fmt.Errorf("get working directory: %w", err)
 			}
 			ctx := log.Logger.WithContext(cmd.Context())
-			return acprepl.RunREPL(
+			return acpchat.RunREPL(
 				ctx,
 				workingDir,
 				acpCommand,
@@ -60,7 +60,7 @@ func Command() *cobra.Command {
 		}
 		return nil
 	}
-	cmd.Example = "  acp-repl -- opencode acp\n  acp-repl --model openai/gpt-5.4 --mode coding -- opencode acp\n  acp-repl --reasoning-effort high -- npx -y @normahq/codex-acp-bridge@latest\n  acp-repl -- npx -y @zed-industries/claude-code-acp@latest\n  acp-repl -- npx -y pi-acp"
+	cmd.Example = "  acpchat -- opencode acp\n  acpchat --model openai/gpt-5.4 --mode coding -- opencode acp\n  acpchat --reasoning-effort high -- npx -y @normahq/codex-acp-bridge@latest\n  acpchat -- npx -y @zed-industries/claude-code-acp@latest\n  acpchat -- npx -y pi-acp"
 	return cmd
 }
 

@@ -1,13 +1,13 @@
 version: '3'
 
 vars:
-  BINARY_NAME: acp-repl
-  MAIN_PATH: ./cmd/acp-repl
+  BINARY_NAME: acpchat
+  MAIN_PATH: ./cmd/acpchat
   OUTPUT_DIR: bin
 
 tasks:
   default:
-    desc: Build acp-repl binary
+    desc: Build acpchat binary
     cmds:
       - mkdir -p {{.OUTPUT_DIR}}
       - go build -o {{.OUTPUT_DIR}}/{{.BINARY_NAME}} {{.MAIN_PATH}}

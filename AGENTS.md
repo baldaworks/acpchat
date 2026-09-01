@@ -1,20 +1,20 @@
-# acp-repl Agent Notes
+# acpchat Agent Notes
 
-`acp-repl` is a small Go CLI that starts a stdio Agent Client Protocol (ACP)
+`acpchat` is a small Go CLI that starts a stdio Agent Client Protocol (ACP)
 server command and opens an interactive terminal prompt loop for sending ACP
 turns.
 
 ## Project Layout
 
-- `cmd/acp-repl/main.go`: executable entrypoint.
-- `cmd/acp-repl/cmd/command.go`: Cobra command, flags, examples, and argument validation.
-- `internal/apps/acprepl`: ACP session setup, prompt loop, permission handling, and output.
+- `cmd/acpchat/main.go`: executable entrypoint.
+- `cmd/acpchat/cmd/command.go`: Cobra command, flags, examples, and argument validation.
+- `internal/apps/acpchat`: ACP session setup, prompt loop, permission handling, and output.
 - `internal/apps/appio`: synchronized writer helpers.
 - `internal/logging`: process-wide structured logging setup.
 
 ## Development Rules
 
-- Keep stdout focused on REPL interaction. Debug and provider process logs must
+- Keep stdout focused on chat interaction. Debug and provider process logs must
   go to stderr.
 - Keep ACP provider examples in README/help current with supported providers.
   Do not add abandoned provider examples.
@@ -38,7 +38,7 @@ Equivalent direct commands:
 ```sh
 go test ./...
 go tool golangci-lint run ./...
-go build -o bin/acp-repl ./cmd/acp-repl
+go build -o bin/acpchat ./cmd/acpchat
 ```
 
 <!-- BEGIN BEADS INTEGRATION v:1 profile:minimal hash:970c3bf2 -->

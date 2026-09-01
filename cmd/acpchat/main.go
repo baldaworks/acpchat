@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/normahq/acp-repl/cmd/acp-repl/cmd"
+	"github.com/baldaworks/acpchat/cmd/acpchat/cmd"
 )
 
 func main() {

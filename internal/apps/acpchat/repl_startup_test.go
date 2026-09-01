@@ -1,4 +1,4 @@
-package acprepl
+package acpchat
 
 import (
 	"bytes"

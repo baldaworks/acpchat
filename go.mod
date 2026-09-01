@@ -1,4 +1,4 @@
-module github.com/normahq/acp-repl
+module github.com/baldaworks/acpchat
 
 go 1.26.5
 

@@ -1,17 +1,17 @@
-# acp-repl
+# acpchat
 
-[![test](https://github.com/normahq/acp-repl/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/normahq/acp-repl/actions/workflows/test.yml)
-[![lint](https://github.com/normahq/acp-repl/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/normahq/acp-repl/actions/workflows/lint.yml)
-[![security](https://github.com/normahq/acp-repl/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/normahq/acp-repl/actions/workflows/security.yml)
-[![release](https://github.com/normahq/acp-repl/actions/workflows/omnidist-release.yml/badge.svg)](https://github.com/normahq/acp-repl/actions/workflows/omnidist-release.yml)
-[![npm](https://img.shields.io/npm/v/@normahq/acp-repl)](https://www.npmjs.com/package/@normahq/acp-repl)
-[![License](https://img.shields.io/github/license/normahq/acp-repl)](LICENSE)
-[![Version](https://img.shields.io/github/v/tag/normahq/acp-repl?label=version)](https://github.com/normahq/acp-repl/tags)
+[![test](https://github.com/baldaworks/acpchat/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/baldaworks/acpchat/actions/workflows/test.yml)
+[![lint](https://github.com/baldaworks/acpchat/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/baldaworks/acpchat/actions/workflows/lint.yml)
+[![security](https://github.com/baldaworks/acpchat/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/baldaworks/acpchat/actions/workflows/security.yml)
+[![release](https://github.com/baldaworks/acpchat/actions/workflows/omnidist-release.yml/badge.svg)](https://github.com/baldaworks/acpchat/actions/workflows/omnidist-release.yml)
+[![npm](https://img.shields.io/npm/v/@baldaworks/acpchat)](https://www.npmjs.com/package/@baldaworks/acpchat)
+[![License](https://img.shields.io/github/license/baldaworks/acpchat)](LICENSE)
+[![Version](https://img.shields.io/github/v/tag/baldaworks/acpchat?label=version)](https://github.com/baldaworks/acpchat/tags)
 
 **Talk to ACP agents interactively from your terminal.**
 
-`acp-repl` starts any stdio Agent Client Protocol (ACP) server command and gives
-you a focused terminal REPL for sending prompts, testing sessions, and handling
+`acpchat` starts any stdio Agent Client Protocol (ACP) server command and gives
+you a focused terminal chat / REPL for sending prompts, testing sessions, and handling
 permission requests.
 
 Use it when you want to try an ACP provider directly before embedding it in an
@@ -26,7 +26,7 @@ agent runtime, app, or automation workflow.
 | Model selection | Requests a provider model with `--model` when supported. |
 | Mode selection | Requests a provider mode with `--mode` when supported. |
 | Permission handling | Lets you choose from numbered permission options in the terminal. |
-| Quiet lifecycle logs | Keeps REPL output focused unless `--debug` is enabled. |
+| Quiet lifecycle logs | Keeps output focused unless `--debug` is enabled. |
 | Provider agnostic | Works with OpenCode, Codex, Claude Code, Pi, and any executable that speaks ACP over stdio. |
 
 ## Try It
@@ -34,47 +34,47 @@ agent runtime, app, or automation workflow.
 Install globally:
 
 ```sh
-npm install -g @normahq/acp-repl@latest
+npm install -g @baldaworks/acpchat@latest
 ```
 
 Run once with `npx`:
 
 ```sh
-npx @normahq/acp-repl@latest -- <acp-server-cmd> [args...]
+npx @baldaworks/acpchat@latest -- <acp-server-cmd> [args...]
 ```
 
-Start a REPL:
+Start a chat:
 
 ```sh
-acp-repl -- opencode acp
-acp-repl --model openai/gpt-5.4 --mode coding -- opencode acp
-acp-repl --reasoning-effort high -- npx -y @normahq/codex-acp-bridge@latest
-acp-repl -- npx -y @normahq/codex-acp-bridge@latest
-acp-repl -- npx -y @zed-industries/claude-code-acp@latest
-acp-repl --debug -- npx -y pi-acp
+acpchat -- opencode acp
+acpchat --model openai/gpt-5.4 --mode coding -- opencode acp
+acpchat --reasoning-effort high -- npx -y @normahq/codex-acp-bridge@latest
+acpchat -- npx -y @normahq/codex-acp-bridge@latest
+acpchat -- npx -y @zed-industries/claude-code-acp@latest
+acpchat --debug -- npx -y pi-acp
 ```
 
 ## Provider Commands
 
 | Provider | Command |
 | --- | --- |
-| OpenCode | `acp-repl -- opencode acp` |
-| OpenCode with model/mode | `acp-repl --model openai/gpt-5.4 --mode coding -- opencode acp` |
-| Codex | `acp-repl -- npx -y @normahq/codex-acp-bridge@latest` |
-| Codex with reasoning effort | `acp-repl --reasoning-effort high -- npx -y @normahq/codex-acp-bridge@latest` |
-| Claude Code | `acp-repl -- npx -y @zed-industries/claude-code-acp@latest` |
-| Pi | `acp-repl -- npx -y pi-acp` |
-| Generic ACP | `acp-repl -- <acp-server-cmd> [args...]` |
+| OpenCode | `acpchat -- opencode acp` |
+| OpenCode with model/mode | `acpchat --model openai/gpt-5.4 --mode coding -- opencode acp` |
+| Codex | `acpchat -- npx -y @normahq/codex-acp-bridge@latest` |
+| Codex with reasoning effort | `acpchat --reasoning-effort high -- npx -y @normahq/codex-acp-bridge@latest` |
+| Claude Code | `acpchat -- npx -y @zed-industries/claude-code-acp@latest` |
+| Pi | `acpchat -- npx -y pi-acp` |
+| Generic ACP | `acpchat -- <acp-server-cmd> [args...]` |
 
 The `--` separator is required. Arguments before `--` are treated as
-`acp-repl` flags; arguments after it are passed to the ACP server command.
+`acpchat` flags; arguments after it are passed to the ACP server command.
 
 ## Interaction
 
 - Type a prompt and press Enter to run a turn.
-- Type `exit` or `quit` to close the REPL.
+- Type `exit` or `quit` to close the session.
 - If ACP permission requests arrive, choose from the numbered options.
-- Use `--debug` when you need REPL lifecycle and inspector diagnostics.
+- Use `--debug` when you need lifecycle and inspector diagnostics.
 
 ## Use Cases
 
@@ -99,13 +99,13 @@ unsupported.
 
 ## Repository
 
-- GitHub: <https://github.com/normahq/acp-repl>
+- GitHub: <https://github.com/baldaworks/acpchat>
 
 ## Contact
 
-- Issues: <https://github.com/normahq/acp-repl/issues>
+- Issues: <https://github.com/baldaworks/acpchat/issues>
 - Maintainer: [@metalagman](https://github.com/metalagman)
 
 ## License
 
-MIT. See the repository [LICENSE](https://github.com/normahq/acp-repl/blob/main/LICENSE).
+MIT. See the repository [LICENSE](https://github.com/baldaworks/acpchat/blob/main/LICENSE).
