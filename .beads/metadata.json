@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "embedded",
+  "dolt_database": "acpchat",
+  "project_id": "0d6477cc-365f-4491-9766-67e411e9d565"
+}
