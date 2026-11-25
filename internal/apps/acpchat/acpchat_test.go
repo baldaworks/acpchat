@@ -9,11 +9,48 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/normahq/go-adk-acpagent/v2"
 	"google.golang.org/adk/v2/session"
 	"google.golang.org/genai"
 )
 
 var ansiSequenceRE = regexp.MustCompile(`\x1b\[[0-9;]*m`)
+
+func TestACPToolTerminalRequestPermission(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name         string
+		input        string
+		wantOptionID string
+		wantCanceled bool
+	}{
+		{name: "select option", input: "2\n", wantOptionID: "always"},
+		{name: "empty input cancels", input: "\n", wantCanceled: true},
+		{name: "invalid input cancels", input: "3\n", wantCanceled: true},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+
+			var output bytes.Buffer
+			ui := newACPToolTerminal(strings.NewReader(test.input), &output, io.Discard)
+			decision, err := ui.RequestPermission(context.Background(), acpagent.PermissionRequest{
+				ToolCall: acpagent.PermissionToolCall{Title: "run command"},
+				Options: []acpagent.PermissionOption{
+					{ID: "once", Name: "Allow once", Kind: acpagent.PermissionOptionKindAllowOnce},
+					{ID: "always", Name: "Always allow", Kind: acpagent.PermissionOptionKindAllowAlways},
+				},
+			})
+			if err != nil {
+				t.Fatalf("RequestPermission() error = %v", err)
+			}
+			if decision.OptionID != test.wantOptionID || decision.Canceled != test.wantCanceled {
+				t.Errorf("RequestPermission() = %+v, want option %q canceled %t", decision, test.wantOptionID, test.wantCanceled)
+			}
+		})
+	}
+}
 
 func TestExtractACPToolEventPartText(t *testing.T) {
 	tests := []struct {
