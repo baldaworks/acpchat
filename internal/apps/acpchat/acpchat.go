@@ -11,10 +11,9 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/charmbracelet/glamour"
-	acp "github.com/coder/acp-go-sdk"
 	"github.com/baldaworks/acpchat/internal/apps/appio"
 	"github.com/baldaworks/acpchat/internal/logging"
+	"github.com/charmbracelet/glamour"
 	"github.com/normahq/go-adk-acpagent/v2"
 	"github.com/rs/zerolog"
 	adkagent "google.golang.org/adk/v2/agent"
@@ -554,45 +553,42 @@ func (t *acpToolTerminal) Println(args ...any) {
 	_, _ = fmt.Fprintln(t.stdout, args...)
 }
 
-func (t *acpToolTerminal) RequestPermission(ctx context.Context, req acp.RequestPermissionRequest) (acp.RequestPermissionResponse, error) {
+func (t *acpToolTerminal) RequestPermission(ctx context.Context, req acpagent.PermissionRequest) (acpagent.PermissionDecision, error) {
 	t.mu.Lock()
 	defer t.mu.Unlock()
 
 	logger := zerolog.Ctx(ctx)
-	title := ""
-	if req.ToolCall.Title != nil {
-		title = *req.ToolCall.Title
-	}
+	title := req.ToolCall.Title
 	logger.Debug().
 		Str("permission_title", title).
 		Int("option_count", len(req.Options)).
 		Msg("permission requested")
 
 	if _, err := fmt.Fprintf(t.stdout, "\nPermission requested: %s\n", title); err != nil {
-		return acp.RequestPermissionResponse{}, err
+		return acpagent.PermissionDecision{}, err
 	}
 	for idx, option := range req.Options {
 		if _, err := fmt.Fprintf(t.stdout, "%d. %s (%s)\n", idx+1, option.Name, option.Kind); err != nil {
-			return acp.RequestPermissionResponse{}, err
+			return acpagent.PermissionDecision{}, err
 		}
 	}
 	if _, err := fmt.Fprint(t.stdout, "Choose an option: "); err != nil {
-		return acp.RequestPermissionResponse{}, err
+		return acpagent.PermissionDecision{}, err
 	}
 
 	line, err := t.reader.ReadString('\n')
 	if err != nil && !errors.Is(err, io.EOF) {
-		return acp.RequestPermissionResponse{}, err
+		return acpagent.PermissionDecision{}, err
 	}
 	trimmed := strings.TrimSpace(line)
 	if trimmed == "" {
-		return acp.RequestPermissionResponse{Outcome: acp.NewRequestPermissionOutcomeCancelled()}, nil
+		return acpagent.PermissionDecision{Canceled: true}, nil
 	}
 
 	choice, convErr := strconv.Atoi(trimmed)
 	if convErr != nil || choice < 1 || choice > len(req.Options) {
-		return acp.RequestPermissionResponse{Outcome: acp.NewRequestPermissionOutcomeCancelled()}, nil
+		return acpagent.PermissionDecision{Canceled: true}, nil
 	}
 	selected := req.Options[choice-1]
-	return acp.RequestPermissionResponse{Outcome: acp.NewRequestPermissionOutcomeSelected(selected.OptionId)}, nil
+	return acpagent.PermissionDecision{OptionID: selected.ID}, nil
 }
